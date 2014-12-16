@@ -23,6 +23,17 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 	private static final String USERNAME = "sa";
 	private static final String PASSWORD = "sa123456";
 
+	// private DataSource dataSource;
+	//
+	// public MemberDAO_JDBC() {
+	// try {
+	// Context ctx = new InitialContext();
+	// dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/xxx");
+	// } catch (NamingException e) {
+	// e.printStackTrace();
+	// }
+	// }
+
 	private static final String SELECT_BY_ID = "select * from storeinformation where storeid = ?";
 
 	@Override
@@ -34,6 +45,7 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 		ResultSet rs = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SELECT_BY_ID);
 			pstmt.setString(1, storeId);
 			rs = pstmt.executeQuery();
@@ -46,7 +58,7 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 				result.setImgFileName(rs.getString("imgfilename"));
 
 				// 圖片另存
-				File f = new File("WebContent/imagesDB/image_store.jpg");
+				File f = new File("imagesDB/image_store.jpg");
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
@@ -105,6 +117,7 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 		ResultSet rs = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SELECT_ALL);
 			rs = pstmt.executeQuery();
 
@@ -118,7 +131,7 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 				bean.setImgFileName(rs.getString("imgfilename"));
 
 				// 圖片另存
-				File f = new File("WebContent/imagesDB/image_store.jpg");
+				File f = new File("imagesDB/image_store.jpg");
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
@@ -180,10 +193,12 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(INSERT);
 			pstmt.setString(1, bean.getStoreUsername());
 			pstmt.setString(2, bean.getStoreName());
 			pstmt.setString(3, bean.getStoreAddress());
+			
 			if (filename != null) {
 				pstmt.setString(4, filename);
 			} else {
@@ -239,9 +254,11 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(UPDATE);
 			pstmt.setString(1, bean.getStoreName());
 			pstmt.setString(2, bean.getStoreAddress());
+			
 			if (filename != null) {
 				pstmt.setString(3, filename);
 			} else {
@@ -293,6 +310,7 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(DELETE);
 			pstmt.setString(1, storeId);
 			int i = pstmt.executeUpdate();
@@ -325,25 +343,25 @@ public class StoreInformationDAO_JDBC implements StoreInformationDAO {
 		StoreInformationDAO dao = new StoreInformationDAO_JDBC();
 
 		// Insert
-		// StoreInformationBean bean1 = new StoreInformationBean();
-		// bean1.setStoreUsername("sunfisher");
-		// bean1.setStoreName("瘋桌遊");
-		// bean1.setStoreAddress("台北市松山區三民路102巷20號");
-		// String filename1 = "boardgames.jpg";
-		// bean1.setImgFileName(filename1);
-		// File f = new File("WebContent/res/" + bean1.getImgFileName());
-		// long size = 0;
-		// InputStream is = null;
-		// try {
-		// size = f.length();
-		// is = new FileInputStream(f);
-		// } catch (FileNotFoundException e) {
-		// e.printStackTrace();
-		// }
-		// bean1.setStoreTel("(02)2528-2765");
-		// bean1.setRentAreaCost(120.0);
-		// bean1.setGroupUpperLimit(50);
-		// dao.insert(bean1, is, size, filename1);
+		StoreInformationBean bean1 = new StoreInformationBean();
+		bean1.setStoreUsername("sunfisher");
+		bean1.setStoreName("瘋桌遊");
+		bean1.setStoreAddress("台北市松山區三民路102巷20號");
+		String filename1 = "boardgames.jpg";
+		bean1.setImgFileName(filename1);
+		File f = new File("res/" + bean1.getImgFileName());
+		long size = 0;
+		InputStream is = null;
+		try {
+			size = f.length();
+			is = new FileInputStream(f);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		bean1.setStoreTel("(02)2528-2765");
+		bean1.setRentAreaCost(120.0);
+		bean1.setGroupUpperLimit(50);
+		dao.insert(bean1, is, size, filename1);
 
 		// Select All
 		List<StoreInformationBean> beans = dao.getAll();

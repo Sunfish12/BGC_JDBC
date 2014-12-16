@@ -23,6 +23,17 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 	private static final String USERNAME = "sa";
 	private static final String PASSWORD = "sa123456";
 
+	// private DataSource dataSource;
+	//
+	// public MemberDAO_JDBC() {
+	// try {
+	// Context ctx = new InitialContext();
+	// dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/xxx");
+	// } catch (NamingException e) {
+	// e.printStackTrace();
+	// }
+	// }
+
 	private static final String SELECT_BY_STOREUSERNAME = "select * from storemember where storeusername = ?";
 
 	@Override
@@ -34,6 +45,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 		ResultSet rs = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SELECT_BY_STOREUSERNAME);
 			pstmt.setString(1, storeUsername);
 			rs = pstmt.executeQuery();
@@ -47,7 +59,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 				result.setImgFileName(rs.getString("imgfilename"));
 
 				// 圖片另存
-				File f = new File("WebContent/imagesDB/image_storeMember.jpg");
+				File f = new File("imagesDB/image_storeMember.jpg");
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
@@ -105,6 +117,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 		ResultSet rs = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SELECT_ALL);
 			rs = pstmt.executeQuery();
 
@@ -119,7 +132,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 				bean.setImgFileName(rs.getString("imgfilename"));
 
 				// 圖片另存
-				File f = new File("WebContent/imagesDB/image_storeMember.jpg");
+				File f = new File("imagesDB/image_storeMember.jpg");
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
@@ -180,6 +193,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(INSERT);
 			pstmt.setString(1, bean.getStoreUsername());
 			pstmt.setBytes(2, bean.getStorePswd());
@@ -194,6 +208,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 			}
 
 			pstmt.setString(4, bean.getStorePhone());
+			
 			if (filename != null) {
 				pstmt.setString(5, filename);
 			} else {
@@ -248,6 +263,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(UPDATE);
 			pstmt.setBytes(1, bean.getStorePswd());
 
@@ -261,6 +277,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 			}
 
 			pstmt.setString(3, bean.getStorePhone());
+			
 			if (filename != null) {
 				pstmt.setString(4, filename);
 			} else {
@@ -311,6 +328,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(DELETE);
 			pstmt.setString(1, storeUsername);
 			int i = pstmt.executeUpdate();
@@ -342,45 +360,45 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 		StoreMemberDAO_JDBC dao = new StoreMemberDAO_JDBC();
 
 		// Insert
-		// StoreMemberBean bean1 = new StoreMemberBean();
-		// bean1.setStoreUsername("sunfisher");
-		// bean1.setStorePswd("Aa@123".getBytes());
-		// bean1.setStoreJoinDate(StoreMemberBean.convertDate("2014-10-10"));
-		// bean1.setStorePhone("0911222333");
-		// String filename1 = "boardgames.jpg";
-		// bean1.setImgFileName(filename1);
-		// File f = new File("WebContent/res/" + bean1.getImgFileName());
-		// long size = 0;
-		// InputStream is = null;
-		// try {
-		// size = f.length();
-		// is = new FileInputStream(f);
-		// } catch (FileNotFoundException e) {
-		// e.printStackTrace();
-		// }
-		// bean1.setStoreEmail("sunfisher@gmail.com");
-		// bean1.setStoreWebsite("http://www.boardgamesclub.com.tw");
-		// dao.insert(bean1, is, size, filename1);
-		//
-		// StoreMemberBean bean2 = new StoreMemberBean();
-		// bean2.setStoreUsername("leemike");
-		// bean2.setStorePswd("Bb&456".getBytes());
-		// bean2.setStoreJoinDate(StoreMemberBean.convertDate("2001-12-12"));
-		// bean2.setStorePhone("0988777666");
-		// String filename2 = "boardgames.jpg";
-		// bean2.setImgFileName(filename2);
-		// File f1 = new File("WebContent/res/" + bean2.getImgFileName());
-		// long size1 = 0;
-		// InputStream is1 = null;
-		// try {
-		// size1 = f1.length();
-		// is1 = new FileInputStream(f1);
-		// } catch (FileNotFoundException e) {
-		// e.printStackTrace();
-		// }
-		// bean2.setStoreEmail("superman@yahoo.com");
-		// bean2.setStoreWebsite("http://www.boardgamesclub.com.tw");
-		// dao.insert(bean2, is1, size1, filename2);
+		StoreMemberBean bean1 = new StoreMemberBean();
+		bean1.setStoreUsername("sunfisher");
+		bean1.setStorePswd("Aa@123".getBytes());
+		bean1.setStoreJoinDate(StoreMemberBean.convertDate("2014-10-10"));
+		bean1.setStorePhone("0911222333");
+		String filename1 = "boardgames.jpg";
+		bean1.setImgFileName(filename1);
+		File f = new File("res/" + bean1.getImgFileName());
+		long size = 0;
+		InputStream is = null;
+		try {
+			size = f.length();
+			is = new FileInputStream(f);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		bean1.setStoreEmail("sunfisher@gmail.com");
+		bean1.setStoreWebsite("http://www.boardgamesclub.com.tw");
+		dao.insert(bean1, is, size, filename1);
+
+		StoreMemberBean bean2 = new StoreMemberBean();
+		bean2.setStoreUsername("leemike");
+		bean2.setStorePswd("Bb&456".getBytes());
+		bean2.setStoreJoinDate(StoreMemberBean.convertDate("2001-12-12"));
+		bean2.setStorePhone("0988777666");
+		String filename2 = "boardgames.jpg";
+		bean2.setImgFileName(filename2);
+		File f1 = new File("res/" + bean2.getImgFileName());
+		long size1 = 0;
+		InputStream is1 = null;
+		try {
+			size1 = f1.length();
+			is1 = new FileInputStream(f1);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		bean2.setStoreEmail("superman@yahoo.com");
+		bean2.setStoreWebsite("http://www.boardgamesclub.com.tw");
+		dao.insert(bean2, is1, size1, filename2);
 
 		// Update
 		// StoreMemberBean bean3 = new StoreMemberBean();
