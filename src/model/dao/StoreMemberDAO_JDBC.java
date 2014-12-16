@@ -47,7 +47,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 				result.setImgFileName(rs.getString("imgfilename"));
 
 				// 圖片另存
-				File f = new File("imagesDB/image_storeMember.jpg");
+				File f = new File("WebContent/imagesDB/image_storeMember.jpg");
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
@@ -119,7 +119,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 				bean.setImgFileName(rs.getString("imgfilename"));
 
 				// 圖片另存
-				File f = new File("imagesDB/image_storeMember.jpg");
+				File f = new File("WebContent/imagesDB/image_storeMember.jpg");
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
@@ -173,7 +173,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 
 	@Override
 	public StoreMemberBean insert(StoreMemberBean bean, InputStream is,
-			long size) {
+			long size, String filename) {
 		StoreMemberBean result = null;
 
 		Connection conn = null;
@@ -194,13 +194,17 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 			}
 
 			pstmt.setString(4, bean.getStorePhone());
-			pstmt.setString(5, bean.getImgFileName());
+			if (filename != null) {
+				pstmt.setString(5, filename);
+			} else {
+				pstmt.setString(5, null);
+			}
 
 			// 準備存圖片
 			if (is != null && size != 0) {
 				pstmt.setBinaryStream(6, is, size);
 			} else {
-				pstmt.setBinaryStream(6, null);
+				pstmt.setBinaryStream(6, null, 0);
 			}
 
 			pstmt.setString(7, bean.getStoreEmail());
@@ -237,7 +241,7 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 
 	@Override
 	public StoreMemberBean update(StoreMemberBean bean, InputStream is,
-			long size) {
+			long size, String filename) {
 		StoreMemberBean result = null;
 
 		Connection conn = null;
@@ -257,13 +261,17 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 			}
 
 			pstmt.setString(3, bean.getStorePhone());
-			pstmt.setString(4, bean.getImgFileName());
+			if (filename != null) {
+				pstmt.setString(4, filename);
+			} else {
+				pstmt.setString(4, null);
+			}
 
 			// 準備存圖片
 			if (is != null && size != 0) {
 				pstmt.setBinaryStream(5, is, size);
 			} else {
-				pstmt.setBinaryStream(5, null);
+				pstmt.setBinaryStream(5, null, 0);
 			}
 
 			pstmt.setString(6, bean.getStoreEmail());
@@ -331,51 +339,50 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 	}
 
 	public static void main(String[] args) {
-
-		 StoreMemberDAO_JDBC dao = new StoreMemberDAO_JDBC();
+		StoreMemberDAO_JDBC dao = new StoreMemberDAO_JDBC();
 
 		// Insert
-
-		 StoreMemberBean bean1 = new StoreMemberBean();
-		 bean1.setStoreUsername("sunfisher");
-		 bean1.setStorePswd("Aa@123".getBytes());
-		 bean1.setStoreJoinDate(StoreMemberBean.convertDate("2014-10-10"));
-		 bean1.setStorePhone("0911222333");
-		 bean1.setImgFileName("boardgames.jpg");
-		 File f = new File("res/" + bean1.getImgFileName());
-		 long size = 0;
-		 InputStream is = null;
-		 try {
-		 size = f.length();
-		 is = new FileInputStream(f);
-		 } catch (FileNotFoundException e) {
-		 e.printStackTrace();
-		 }
-		 bean1.setStoreEmail("sunfisher@gmail.com");
-		 bean1.setStoreWebsite("http://www.boardgamesclub.com.tw");
-		 dao.insert(bean1, is, size);
-		
-		 StoreMemberBean bean2 = new StoreMemberBean();
-		 bean2.setStoreUsername("leemike");
-		 bean2.setStorePswd("Bb&456".getBytes());
-		 bean2.setStoreJoinDate(StoreMemberBean.convertDate("2001-12-12"));
-		 bean2.setStorePhone("0988777666");
-		 bean2.setImgFileName("boardgames.jpg");
-		 File f1 = new File("res/" + bean2.getImgFileName());
-		 long size1 = 0;
-		 InputStream is1 = null;
-		 try {
-		 size1 = f1.length();
-		 is1 = new FileInputStream(f1);
-		 } catch (FileNotFoundException e) {
-		 e.printStackTrace();
-		 }
-		 bean2.setStoreEmail("superman@yahoo.com");
-		 bean2.setStoreWebsite("http://www.boardgamesclub.com.tw");
-		 dao.insert(bean2, is1, size1);
+		// StoreMemberBean bean1 = new StoreMemberBean();
+		// bean1.setStoreUsername("sunfisher");
+		// bean1.setStorePswd("Aa@123".getBytes());
+		// bean1.setStoreJoinDate(StoreMemberBean.convertDate("2014-10-10"));
+		// bean1.setStorePhone("0911222333");
+		// String filename1 = "boardgames.jpg";
+		// bean1.setImgFileName(filename1);
+		// File f = new File("WebContent/res/" + bean1.getImgFileName());
+		// long size = 0;
+		// InputStream is = null;
+		// try {
+		// size = f.length();
+		// is = new FileInputStream(f);
+		// } catch (FileNotFoundException e) {
+		// e.printStackTrace();
+		// }
+		// bean1.setStoreEmail("sunfisher@gmail.com");
+		// bean1.setStoreWebsite("http://www.boardgamesclub.com.tw");
+		// dao.insert(bean1, is, size, filename1);
+		//
+		// StoreMemberBean bean2 = new StoreMemberBean();
+		// bean2.setStoreUsername("leemike");
+		// bean2.setStorePswd("Bb&456".getBytes());
+		// bean2.setStoreJoinDate(StoreMemberBean.convertDate("2001-12-12"));
+		// bean2.setStorePhone("0988777666");
+		// String filename2 = "boardgames.jpg";
+		// bean2.setImgFileName(filename2);
+		// File f1 = new File("WebContent/res/" + bean2.getImgFileName());
+		// long size1 = 0;
+		// InputStream is1 = null;
+		// try {
+		// size1 = f1.length();
+		// is1 = new FileInputStream(f1);
+		// } catch (FileNotFoundException e) {
+		// e.printStackTrace();
+		// }
+		// bean2.setStoreEmail("superman@yahoo.com");
+		// bean2.setStoreWebsite("http://www.boardgamesclub.com.tw");
+		// dao.insert(bean2, is1, size1, filename2);
 
 		// Update
-
 		// StoreMemberBean bean3 = new StoreMemberBean();
 		// bean3.setStoreUsername("sunfisher");
 		// bean3.setStorePswd("Cc#789".getBytes());
@@ -384,23 +391,21 @@ public class StoreMemberDAO_JDBC implements StoreMemberDAO {
 		// bean3.setStorePhone("0900455357");
 		// long size3 = 0;
 		// InputStream is3 = null;
-		// bean3 = dao.update(bean3, is3, size3);
+		// String filename3 = null;
+		// bean3 = dao.update(bean3, is3, size3, filename3);
 
 		// Delete By StoreUsername
-
 		// boolean b = dao.delete("sunfisher");
 		// System.out.println(b);
 
 		// Select By StoreUsername
-
 		// StoreMemberBean bean1 = dao.findByPrimeKey("sunfisher");
 		// System.out.println(bean1);
 		// StoreMemberBean bean2 = dao.findByPrimeKey("leemike");
 		// System.out.println(bean2);
 
 		// Select All
-
-		 List<StoreMemberBean> beans = dao.getAll();
-		 System.out.println(beans);
+		List<StoreMemberBean> beans = dao.getAll();
+		System.out.println(beans);
 	}
 }

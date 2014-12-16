@@ -8,9 +8,9 @@ public interface MemberDAO {
 
 	public abstract List<MemberBean> getAll();
 
-	public abstract MemberBean insert(MemberBean bean, InputStream is, long size);
+	public abstract MemberBean insert(MemberBean bean, InputStream is, long size, String filename);
 
-	public abstract MemberBean update(MemberBean bean, InputStream is, long size);
+	public abstract MemberBean update(MemberBean bean, InputStream is, long size, String filename);
 
 	public abstract boolean delete(String Username);
 }

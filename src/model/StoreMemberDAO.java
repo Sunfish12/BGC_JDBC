@@ -9,10 +9,10 @@ public interface StoreMemberDAO {
 	public abstract List<StoreMemberBean> getAll();
 
 	public abstract StoreMemberBean insert(StoreMemberBean bean,
-			InputStream is, long size);
+			InputStream is, long size, String filename);
 
 	public abstract StoreMemberBean update(StoreMemberBean bean,
-			InputStream is, long size);
+			InputStream is, long size, String filename);
 
 	public abstract boolean delete(String storeUsername);
 }

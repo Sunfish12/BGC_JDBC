@@ -9,10 +9,10 @@ public interface StoreInformationDAO {
 	public abstract List<StoreInformationBean> getAll();
 
 	public abstract StoreInformationBean insert(StoreInformationBean bean,
-			InputStream is, long size);
+			InputStream is, long size, String filename);
 
 	public abstract StoreInformationBean update(StoreInformationBean bean,
-			InputStream is, long size);
+			InputStream is, long size, String filename);
 
 	public abstract boolean delete(String storeId);
 }
