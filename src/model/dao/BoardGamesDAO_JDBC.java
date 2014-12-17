@@ -181,7 +181,7 @@ public class BoardGamesDAO_JDBC implements BoardGamesDAO {
 	}
 
 	private static final String INSERT = "insert into boardgames (storeusername, storename, boardgamename, boardgamestyle,"
-			+ " boardgamenumber, imgfilename, boardGameImage, boardgameexplan) values (?, ?, ?, ?, ?, ?, ?, ?)";
+			+ " boardgamenumber, imgfilename, boardgameimage, boardgameexplan) values (?, ?, ?, ?, ?, ?, ?, ?)";
 
 	@Override
 	public BoardGamesBean insert(BoardGamesBean bean, InputStream is,
@@ -239,9 +239,9 @@ public class BoardGamesDAO_JDBC implements BoardGamesDAO {
 		return result;
 	}
 
-	private static final String UPDATE = "update boardgames set boardGameName=?,"
-			+ " boardGameStyle=?, boardGameNumber=?, imgFileName=?, boardGameImage=?,"
-			+ " boardGameExplan=? where boardGamesId=?";
+	private static final String UPDATE = "update boardgames set boardgamename=?,storeusername=?, storeName=?, "
+			+ " boardgamestyle=?, boardgamenumber=?, imgfilename=?, boardgameimage=?,"
+			+ " boardgameexplan=? where boardgamesid=?";
 
 	@Override
 	public BoardGamesBean update(BoardGamesBean bean, InputStream is,
@@ -255,18 +255,26 @@ public class BoardGamesDAO_JDBC implements BoardGamesDAO {
 			// conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(UPDATE);
 			pstmt.setString(1, bean.getBoardGameName());
-			pstmt.setString(2, bean.getBoardGameStyle());
-			pstmt.setString(3, bean.getBoardGameNumber());
-			pstmt.setString(4, bean.getImgFileName());
+			pstmt.setString(2, bean.getStoreUsername());
+			pstmt.setString(3, bean.getStoreName());
 
-			if (is != null && size != 0) {
-				pstmt.setBinaryStream(5, is, size);
+			pstmt.setString(4, bean.getBoardGameStyle());
+			pstmt.setString(5, bean.getBoardGameNumber());
+
+			if (filename != null) {
+				pstmt.setString(6, filename);
 			} else {
-				pstmt.setBinaryStream(5, null, 0);
+				pstmt.setString(6, null);
 			}
 
-			pstmt.setString(6, bean.getBoardGameExplan());
-			pstmt.setInt(7, bean.getBoardGamesId());
+			if (is != null && size != 0) {
+				pstmt.setBinaryStream(7, is, size);
+			} else {
+				pstmt.setBinaryStream(7, null, 0);
+			}
+
+			pstmt.setString(8, bean.getBoardGameExplan());
+			pstmt.setInt(8, bean.getBoardGamesId());
 
 			int i = pstmt.executeUpdate();
 			if (i == 1) {

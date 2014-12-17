@@ -2,6 +2,7 @@ package model.dao;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -166,27 +167,174 @@ public class BoardGamesImageDAO_JDBC implements BoardGamesImageDAO {
 		return result;
 	}
 
+	private static final String INSERT = "insert into boardgamesimage (boardgamesid, imgfilename, boardgameimages) values (?, ?, ?)";
+
 	@Override
 	public BoardGamesImageBean insert(BoardGamesImageBean bean, InputStream is,
 			long size, String filename) {
 		BoardGamesImageBean result = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(INSERT);
+			pstmt.setInt(1, bean.getBoardGamesId());
+
+			if (filename != null) {
+				pstmt.setString(2, filename);
+			} else {
+				pstmt.setString(2, null);
+			}
+
+			// 準備存圖片
+			if (is != null && size != 0) {
+				pstmt.setBinaryStream(3, is, size);
+			} else {
+				pstmt.setBinaryStream(3, null, 0);
+			}
+
+			int i = pstmt.executeUpdate();
+			if (i == 1) {
+				result = bean;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return result;
 	}
+
+	private static final String UPDATE = "update boardgamesimage set boardGamesId=?,"
+			+ " imgFileName=?, boardGameImages=? where storeImageId=?";
 
 	@Override
 	public BoardGamesImageBean update(BoardGamesImageBean bean, InputStream is,
 			long size, String filename) {
 		BoardGamesImageBean result = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(UPDATE);
+
+			pstmt.setInt(1, bean.getBoardGamesId());
+
+			if (filename != null) {
+				pstmt.setString(2, filename);
+			} else {
+				pstmt.setString(2, null);
+			}
+
+			// 準備存圖片
+			if (is != null && size != 0) {
+				pstmt.setBinaryStream(3, is, size);
+			} else {
+				pstmt.setBinaryStream(3, null, 0);
+			}
+
+			pstmt.setInt(4, bean.getStoreImageId());
+
+			int i = pstmt.executeUpdate();
+			if (i == 1) {
+				result = bean;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return result;
 	}
 
+	private static final String DELETE = "delete from boardgamesimage where storeImageId=?";
+
 	@Override
 	public boolean delete(Integer storeImageId) {
-
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(DELETE);
+			pstmt.setInt(1, storeImageId);
+			int i = pstmt.executeUpdate();
+			if (i == 1) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return false;
 	}
 
 	public static void main(String[] args) {
 
+		BoardGamesImageDAO dao = new BoardGamesImageDAO_JDBC();
+
+		// Insert
+		BoardGamesImageBean bean1 = new BoardGamesImageBean();
+		bean1.setBoardGamesId(1);
+		String filename1 = "boardgames.jpg";
+		bean1.setImgFileName(filename1);
+		File f = new File("res/" + bean1.getImgFileName());
+		long size = 0;
+		InputStream is = null;
+		try {
+			size = f.length();
+			is = new FileInputStream(f);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		dao.insert(bean1, is, size, filename1);
+
+		// Select All
+		List<BoardGamesImageBean> beans = dao.getAll();
+		System.out.println(beans);
 	}
 }
