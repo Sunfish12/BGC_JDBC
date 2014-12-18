@@ -1,4 +1,4 @@
-package model;
+package model.StoreInformation;
 
 import java.io.InputStream;
 import java.util.List;

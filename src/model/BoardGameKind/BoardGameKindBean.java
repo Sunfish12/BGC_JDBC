@@ -1,4 +1,4 @@
-package model;
+package model.BoardGameKind;
 
 public class BoardGameKindBean implements java.io.Serializable {
 	/**

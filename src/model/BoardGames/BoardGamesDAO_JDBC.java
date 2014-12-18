@@ -1,4 +1,4 @@
-package model.dao;
+package model.BoardGames;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -14,9 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.BoardGamesBean;
-import model.BoardGamesDAO;
 
 public class BoardGamesDAO_JDBC implements BoardGamesDAO {
 	private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=BoardGames";

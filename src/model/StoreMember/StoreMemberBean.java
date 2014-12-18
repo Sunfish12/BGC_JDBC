@@ -1,4 +1,4 @@
-package model;
+package model.StoreMember;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

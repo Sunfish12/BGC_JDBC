@@ -1,4 +1,4 @@
-package model;
+package model.BoardGameKind;
 
 import java.io.InputStream;
 import java.util.List;

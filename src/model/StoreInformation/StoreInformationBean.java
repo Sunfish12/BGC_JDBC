@@ -1,4 +1,4 @@
-package model;
+package model.StoreInformation;
 
 public class StoreInformationBean implements java.io.Serializable {
 	/**

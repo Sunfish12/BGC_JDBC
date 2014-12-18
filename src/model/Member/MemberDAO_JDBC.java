@@ -1,4 +1,4 @@
-package model.dao;
+package model.Member;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -19,9 +19,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
-import model.MemberBean;
-import model.MemberDAO;
 
 public class MemberDAO_JDBC implements MemberDAO {
 	private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=BoardGames";

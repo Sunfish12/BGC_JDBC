@@ -1,4 +1,4 @@
-package model;
+package model.BoardGamesImage;
 
 public class BoardGamesImageBean implements java.io.Serializable {
 	/**

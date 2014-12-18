@@ -1,4 +1,4 @@
-package model;
+package model.Member;
 
 import java.io.InputStream;
 import java.util.List;

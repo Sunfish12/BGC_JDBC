@@ -1,4 +1,4 @@
-package model;
+package model.StoreMember;
 
 import java.io.InputStream;
 import java.util.List;
