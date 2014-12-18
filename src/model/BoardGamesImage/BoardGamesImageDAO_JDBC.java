@@ -58,7 +58,7 @@ public class BoardGamesImageDAO_JDBC implements BoardGamesImageDAO {
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
-					byte[] b = rs.getBytes("boardgameimage");
+					byte[] b = rs.getBytes("boardgameimages");
 					if (b != null) {
 						bos.write(b, 0, (int) b.length);
 						bos.close();
@@ -123,7 +123,7 @@ public class BoardGamesImageDAO_JDBC implements BoardGamesImageDAO {
 				try {
 					BufferedOutputStream bos = new BufferedOutputStream(
 							new FileOutputStream(f));
-					byte[] b = rs.getBytes("boardgameimage");
+					byte[] b = rs.getBytes("boardgameimages");
 					if (b != null) {
 						bos.write(b, 0, (int) b.length);
 						bos.close();
