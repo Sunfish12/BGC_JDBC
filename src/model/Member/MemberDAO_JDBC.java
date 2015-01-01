@@ -21,7 +21,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class MemberDAO_JDBC implements MemberDAO {
-	private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=BoardGames";
+	private static final String URL = "jdbc:sqlserver://192.168.111.128:1433;databaseName=BoardGames";
 	private static final String USERNAME = "sa";
 	private static final String PASSWORD = "sa123456";
 
